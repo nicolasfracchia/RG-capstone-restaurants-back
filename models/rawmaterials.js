@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   RawMaterials.init({
     name: DataTypes.STRING,
     min: DataTypes.FLOAT,
-    max: DataTypes.NUMBER
+    max: DataTypes.FLOAT
   }, {
     sequelize,
     modelName: 'RawMaterials',

@@ -87,7 +87,7 @@ npm install mariadb
 # Categories
 	npx sequelize-cli model:generate --name Categories --attributes name:string
 # RawMaterials
-	npx sequelize-cli model:generate --name RawMaterials --attributes name:string,min:float,max:number
+	npx sequelize-cli model:generate --name RawMaterials --attributes name:string,min:float,max:float
 # InformationType
 	npx sequelize-cli model:generate --name InformationType --attributes name:string
 # OrdersStatus
@@ -114,4 +114,7 @@ npm install mariadb
 	npx sequelize-cli model:generate --name OrdersStatusUpdates --attributes id_order:integer,id_status_prev:integer,id_status_new:integer,datetime:DATE
 
 ```
-2. Update models to define assosiationsbetweenmodels
+2. Remove CreatedAt and UpdatedAt from migrations!
+3. Run migrations to ensure everything is going ok ``` npx sequelize-cli db:migrate ```
+3. Update models to define assosiations between models
+4. Generate a migration to set up all the foreign keys

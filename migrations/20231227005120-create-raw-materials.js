@@ -16,15 +16,7 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       max: {
-        type: Sequelize.NUMBER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.FLOAT
       }
     });
   },

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Stores', {
+    await queryInterface.createTable('Products', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,17 +12,15 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      cost: {
+        type: Sequelize.FLOAT
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      price: {
+        type: Sequelize.FLOAT
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Stores');
+    await queryInterface.dropTable('Products');
   }
 };
