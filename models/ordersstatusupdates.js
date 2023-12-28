@@ -14,10 +14,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   OrdersStatusUpdates.init({
-    id_order: DataTypes.INTEGER,
-    id_status_prev: DataTypes.INTEGER,
-    id_status_new: DataTypes.INTEGER,
-    datetime: DataTypes.DATE
+    id_order: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_status_prev: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_status_new: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    datetime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
   }, {
     sequelize,
     modelName: 'OrdersStatusUpdates',

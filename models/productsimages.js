@@ -14,8 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ProductsImages.init({
-    id_product: DataTypes.INTEGER,
-    image: DataTypes.STRING
+    id_product: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'ProductsImages',

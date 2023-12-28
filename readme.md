@@ -112,9 +112,30 @@ npm install mariadb
 	npx sequelize-cli model:generate --name OrdersProducts --attributes id_order:integer,id_product:integer,cost:float,price:float,quantity:float
 # OrdersStatusUpdates
 	npx sequelize-cli model:generate --name OrdersStatusUpdates --attributes id_order:integer,id_status_prev:integer,id_status_new:integer,datetime:DATE
-
 ```
-2. Remove CreatedAt and UpdatedAt from migrations!
-3. Run migrations to ensure everything is going ok ``` npx sequelize-cli db:migrate ```
-3. Update models to define assosiations between models
-4. Generate a migration to set up all the foreign keys
+2. Update migrations to remove timestamps (CreatedAt and UpdatedAt).
+3. Update models to set all the field "NOT_NULL" and default value NOW for datetimes in orders and ordersstatusupdate.
+4. Update migrations to set all the field "NOT_NULL" and the datetime fields to CURRENT_TIMESTAMP.
+5. Change the file "config/config.json" to "config/config.js" to allow using the environment variables.
+6. Set the variables for the Sequelize CLI
+```JavaScript
+require('dotenv').config();
+
+module.exports = {
+  "development": {
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_DATABASE,
+    "host": process.env.DB_HOST,
+    "dialect": process.env.DB_DIALECT,
+  }
+};
+```
+7. Create the file ".sequelizerc.js" at the root of the project to set the path to the new config file for the Sequelize CLI
+```JavaScript
+module.exports = {
+  config: "config/config.js"
+};
+```
+5. Run migrations ``` npx sequelize-cli db:migrate ```
+5. Update models to define assosiationsbetweenmodels.
