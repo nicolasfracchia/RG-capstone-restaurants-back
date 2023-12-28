@@ -14,9 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   RawMaterialsStoresStock.init({
-    id_rawmaterial: DataTypes.INTEGER,
-    id_store: DataTypes.INTEGER,
-    stock: DataTypes.FLOAT
+    id_rawmaterial: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_store: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    stock: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'RawMaterialsStoresStock',

@@ -14,11 +14,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   OrdersProducts.init({
-    id_order: DataTypes.INTEGER,
-    id_product: DataTypes.INTEGER,
-    cost: DataTypes.FLOAT,
-    price: DataTypes.FLOAT,
-    quantity: DataTypes.FLOAT
+    id_order: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_product: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    cost: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    quantity: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'OrdersProducts',

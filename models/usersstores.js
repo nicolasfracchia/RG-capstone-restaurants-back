@@ -14,8 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   UsersStores.init({
-    id_user: DataTypes.INTEGER,
-    id_store: DataTypes.INTEGER
+    id_user: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_store: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'UsersStores',

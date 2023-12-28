@@ -14,9 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   StoresInformation.init({
-    id_store: DataTypes.INTEGER,
-    id_type: DataTypes.INTEGER,
-    information: DataTypes.STRING
+    id_store: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_type: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    information: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'StoresInformation',
