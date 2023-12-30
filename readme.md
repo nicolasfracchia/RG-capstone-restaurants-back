@@ -289,7 +289,7 @@ Users.belongsToMany(Stores, {through: UsersStores,foreignKey: 'id_user',otherKey
 ```
 
 # MIGRATIONS
-1. Update migrations generated with the models, to remove timestamps (createdAt and updatedAt).
+1. Update migrations generated with the models to remove timestamps (createdAt and updatedAt).
 2. Set the fields "NOT_NULL" and default value to "CURRENT_TIMESTAMP" on orders.datetime and ordersstatusupdates.datetime.
 3. Generate migrations to set the foreign keys according to the model's relationships:
 ```BASH
@@ -369,4 +369,5 @@ module.exports = {
 module.exports = {
   config: "config/config.js"
 };
+```
 8. Run migrations ``` sequelize-cli db:migrate ```
