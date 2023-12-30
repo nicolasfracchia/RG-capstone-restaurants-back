@@ -1,17 +1,25 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model } = require('sequelize');
+
+const { OrdersProducts } = require('./ordersproducts');
+const { Products } = require('./ordersproducts');
+
+const { Users } = require('./users');
+const { Stores } = require('./stores');
+const { OrdersStatus } = require('./ordersstatus');
+const { OrdersStatusUpdates } = require('./ordersstatusupdates');
+
+
+Orders.belongsToMany(Products, {through: OrdersProducts});
+Orders.hasMany(Users,{foreignKey: "id_user"});
+Orders.hasMany(Stores,{foreignKey: "id_store"});
+Orders.hasMany(OrdersStatus,{foreignKey: "id_status"});
+Orders.hasMany(OrdersStatusUpdates, { foreignKey: 'id_order' });
+
 module.exports = (sequelize, DataTypes) => {
   class Orders extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+    static associate(models) {}
   }
   Orders.init({
     id_user: {

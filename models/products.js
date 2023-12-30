@@ -1,17 +1,24 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model } = require('sequelize');
+
+const { ProductsCategories } = require('./productscategories');
+const { ProductsStores } = require('./productsstores');
+const { OrdersProducts } = require('./ordersproducts');
+
+const { Categories } = require('categories');
+const { Stores } = require('./stores');
+const { Orders } = require('./orders');
+const { ProductsImages } = require('./productsimages');
+
+Products.belongsToMany(Categories, { through: ProductsCategories });
+Products.belongsToMany(Stores, { through: ProductsStores });
+Products.belongsToMany(Orders, { through: OrdersProducts });
+Products.balongsTo(ProductsImages, {foreignKey: 'id_product'});
+
 module.exports = (sequelize, DataTypes) => {
   class Products extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+    static associate(models) {}
   }
   Products.init({
     name: {

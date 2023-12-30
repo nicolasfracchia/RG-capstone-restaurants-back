@@ -1,17 +1,16 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model } = require('sequelize');
+
+const { Products } = require('./products');
+
+ProductsImages.hasMany(Products,{
+  foreignKey: "id_product"
+});
+
 module.exports = (sequelize, DataTypes) => {
   class ProductsImages extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+    static associate(models) {}
   }
   ProductsImages.init({
     id_product: {

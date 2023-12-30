@@ -1,17 +1,18 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
+const { RawMaterials } = require('./rawmaterials');
+const { Stores } = require('./stores');
+
+RawMaterials.belongsToMany(Stores, {
+  through: RawMaterialsStoresStock,
+  foreignKey: 'id_rawmaterial',
+  otherKey: 'id_store'
+});
+
 module.exports = (sequelize, DataTypes) => {
   class RawMaterialsStoresStock extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+    static associate(models) {}
   }
   RawMaterialsStoresStock.init({
     id_rawmaterial: {
