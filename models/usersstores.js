@@ -1,19 +1,14 @@
 'use strict';
 
-const { Users } = require('./users');
-const { Stores } = require('./stores');
-
-Users.belongsToMany(Stores, {
-  through: UsersStores,
-  foreignKey: 'id_user',
-  otherKey: 'id_store'
-});
-
-const { Model } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
   class UsersStores extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Users.belongsToMany(Stores, {
+        through: UsersStores,
+        foreignKey: 'id_user',
+        otherKey: 'id_store'
+      });
+    }
   }
   UsersStores.init({
     id_user: {

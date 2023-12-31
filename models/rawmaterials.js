@@ -2,15 +2,11 @@
 
 const { Model } = require('sequelize');
 
-
-const { RawMaterialsStoresStock } = require('./rawmaterialsstoresstock');
-const { Stores } = require('./stores');
-
-RawMaterials.belongsToMany(Stores, {through: RawMaterialsStoresStock});
-
 module.exports = (sequelize, DataTypes) => {
   class RawMaterials extends Model {
-    static associate(models) {}
+    static associate(models) {
+      RawMaterials.belongsToMany(Stores, {through: RawMaterialsStoresStock});
+    }
   }
   RawMaterials.init({
     name: {

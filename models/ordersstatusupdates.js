@@ -1,16 +1,13 @@
 'use strict';
 const { Model } = require('sequelize');
 
-const { Orders } = require('./orders');
-const { OrdersStatus } = require('./ordersstatus');
-
-OrdersStatusUpdates.belongsTo(Orders, { foreignKey: 'id_order' });
-OrdersStatusUpdates.belongsTo(OrdersStatus, { foreignKey: 'id_status_prev' });
-OrdersStatusUpdates.belongsTo(OrdersStatus, { foreignKey: 'id_status_new' });
-
 module.exports = (sequelize, DataTypes) => {
   class OrdersStatusUpdates extends Model {
-    static associate(models) {}
+    static associate(models) {
+      OrdersStatusUpdates.belongsTo(Orders, { foreignKey: 'id_order' });
+      OrdersStatusUpdates.belongsTo(OrdersStatus, { foreignKey: 'id_status_prev' });
+      OrdersStatusUpdates.belongsTo(OrdersStatus, { foreignKey: 'id_status_new' });
+    }
   }
   OrdersStatusUpdates.init({
     id_order: {

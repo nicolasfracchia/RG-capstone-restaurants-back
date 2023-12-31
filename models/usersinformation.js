@@ -2,18 +2,15 @@
 
 const { Model } = require('sequelize');
 
-const { Users } = require('./users');
-const { InformationType } = require('./informationtype');
-
-Users.belongsToMany(InformationType, {
-  through: UsersInformation,
-  foreignKey: 'id_user',
-  otherKey: 'id_type'
-});
-
 module.exports = (sequelize, DataTypes) => {
   class UsersInformation extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Users.belongsToMany(InformationType, {
+        through: UsersInformation,
+        foreignKey: 'id_user',
+        otherKey: 'id_type'
+      });
+    }
   }
   UsersInformation.init({
     id_user: {

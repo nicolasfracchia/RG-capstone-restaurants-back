@@ -1,18 +1,15 @@
 'use strict';
 const { Model } = require('sequelize');
 
-const { RawMaterials } = require('./rawmaterials');
-const { Stores } = require('./stores');
-
-RawMaterials.belongsToMany(Stores, {
-  through: RawMaterialsStoresStock,
-  foreignKey: 'id_rawmaterial',
-  otherKey: 'id_store'
-});
-
 module.exports = (sequelize, DataTypes) => {
   class RawMaterialsStoresStock extends Model {
-    static associate(models) {}
+    static associate(models) {
+      RawMaterials.belongsToMany(Stores, {
+        through: RawMaterialsStoresStock,
+        foreignKey: 'id_rawmaterial',
+        otherKey: 'id_store'
+      });
+    }
   }
   RawMaterialsStoresStock.init({
     id_rawmaterial: {

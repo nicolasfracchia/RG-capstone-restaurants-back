@@ -2,24 +2,15 @@
 
 const { Model } = require('sequelize');
 
-const { OrdersProducts } = require('./ordersproducts');
-const { Products } = require('./ordersproducts');
-
-const { Users } = require('./users');
-const { Stores } = require('./stores');
-const { OrdersStatus } = require('./ordersstatus');
-const { OrdersStatusUpdates } = require('./ordersstatusupdates');
-
-
-Orders.belongsToMany(Products, {through: OrdersProducts});
-Orders.hasMany(Users,{foreignKey: "id_user"});
-Orders.hasMany(Stores,{foreignKey: "id_store"});
-Orders.hasMany(OrdersStatus,{foreignKey: "id_status"});
-Orders.hasMany(OrdersStatusUpdates, { foreignKey: 'id_order' });
-
 module.exports = (sequelize, DataTypes) => {
   class Orders extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Orders.belongsToMany(Products, {through: OrdersProducts});
+      Orders.hasMany(Users,{foreignKey: "id_user"});
+      Orders.hasMany(Stores,{foreignKey: "id_store"});
+      Orders.hasMany(OrdersStatus,{foreignKey: "id_status"});
+      Orders.hasMany(OrdersStatusUpdates, { foreignKey: 'id_order' });
+    }
   }
   Orders.init({
     id_user: {

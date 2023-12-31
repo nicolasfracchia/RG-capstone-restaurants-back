@@ -2,18 +2,15 @@
 
 const { Model } = require('sequelize');
 
-const { Stores } = require('./stores');
-const { InformationType } = require('./informationtype');
-
-Stores.belongsToMany(InformationType, {
-  through: StoresInformation,
-  foreignKey: 'id_store',
-  otherKey: 'id_type'
-});
-
 module.exports = (sequelize, DataTypes) => {
   class StoresInformation extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Stores.belongsToMany(InformationType, {
+        through: StoresInformation,
+        foreignKey: 'id_store',
+        otherKey: 'id_type'
+      });
+    }
   }
   StoresInformation.init({
     id_store: {

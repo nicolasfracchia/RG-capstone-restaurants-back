@@ -2,13 +2,11 @@
 
 const { Model } = require('sequelize');
 
-const { Orders } = require('./orders');
-
-OrdersStatus.balongsTo(Orders, {foreignKey: 'id_status'});
-
 module.exports = (sequelize, DataTypes) => {
   class OrdersStatus extends Model {
-    static associate(models) {}
+    static associate(models) {
+      OrdersStatus.balongsTo(Orders, {foreignKey: 'id_status'});
+    }
   }
   OrdersStatus.init({
     name: {
