@@ -371,3 +371,60 @@ module.exports = {
 };
 ```
 8. Run migrations ``` sequelize-cli db:migrate ```
+
+# SEEDERS
+Basic simulated data to test the system.
+1. Create seeders files to add data:
+```BASH
+  # USERS
+  sequelize seed:generate --name users
+  # PRODUCTS
+  sequelize seed:generate --name products
+  # RAW MATERIALS
+  sequelize seed:generate --name raw_materials
+  # STORES
+  sequelize seed:generate --name stores
+  # CATEGORIES
+  sequelize seed:generate --name categories
+  # INFORMATION TYPE
+  sequelize seed:generate --name information_type
+  # ORDERS STATUS
+  sequelize seed:generate --name orders_status
+  # USERS INFORMATION
+  sequelize seed:generate --name users-information
+  # STORES INFORMATION
+  sequelize seed:generate --name stores-information
+  # USERS STORES
+  sequelize seed:generate --name users-stores
+  # PRODUCTS IMAGES
+  sequelize seed:generate --name products-images
+  # PRODUCTS STORES
+  sequelize seed:generate --name products-stores
+  # PRODUCTS CATEGORIES
+  sequelize seed:generate --name products-categories
+  # RAW MATERIALS STORES STOCK
+  sequelize seed:generate --name raw_materials-stores-stock
+  # ORDERS
+  sequelize seed:generate --name orders
+  # ORDERS PRODUCTS
+  sequelize seed:generate --name orders-products
+  # ORDERS STATUS UPDATES
+  sequelize seed:generate --name orders_status-updates
+```
+2. Update seeders files with simulated information:
+```JavaScript
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkInsert('TABLE_NAME', [
+      { /* ROW 1 */ },
+      { /* ROW 2 */ },
+      { /* ... */ },
+    ], {});
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('TABLE_NAME', null, {});
+  }
+};
+```
+3. Run all seeders: ``` sequelize db:seed:all ```
