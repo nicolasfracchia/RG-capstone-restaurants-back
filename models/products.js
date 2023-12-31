@@ -5,10 +5,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Products extends Model {
     static associate(models) {
-      Products.belongsToMany(Categories, { through: ProductsCategories });
-      Products.belongsToMany(Stores, { through: ProductsStores });
-      Products.belongsToMany(Orders, { through: OrdersProducts });
-      Products.balongsTo(ProductsImages, {foreignKey: 'id_product'});
+      Products.belongsToMany(models.Categories, { through: models.ProductsCategories });
+      Products.belongsToMany(models.Stores, { through: models.ProductsStores });
+      Products.belongsToMany(models.Orders, { through: models.OrdersProducts });
+      Products.belongsTo(models.ProductsImages, {foreignKey: 'id_product'});
     }
   }
   Products.init({
@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Products',
+    timestamps: false
   });
   return Products;
 };

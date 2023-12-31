@@ -5,8 +5,8 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class InformationType extends Model {
     static associate(models) {
-      InformationType.belongsToMany(Stores, { through: StoresInformation });
-      InformationType.belongsToMany(Users, { through: UsersInformation });
+      InformationType.belongsToMany(models.Stores, { through: models.StoresInformation });
+      InformationType.belongsToMany(models.Users, { through: models.UsersInformation });
     }
   }
   InformationType.init({
@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'InformationType',
+    timestamps: false
   });
   return InformationType;
 };

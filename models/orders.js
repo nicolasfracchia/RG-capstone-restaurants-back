@@ -5,11 +5,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Orders extends Model {
     static associate(models) {
-      Orders.belongsToMany(Products, {through: OrdersProducts});
-      Orders.hasMany(Users,{foreignKey: "id_user"});
-      Orders.hasMany(Stores,{foreignKey: "id_store"});
-      Orders.hasMany(OrdersStatus,{foreignKey: "id_status"});
-      Orders.hasMany(OrdersStatusUpdates, { foreignKey: 'id_order' });
+      Orders.belongsToMany(models.Products, {through: models.OrdersProducts});
+      Orders.hasMany(models.Users,{foreignKey: "id", targetKey: 'id_user'});
+      Orders.hasMany(models.Stores,{foreignKey: "id", targetKey: 'id_store'});
+      Orders.hasMany(models.OrdersStatus,{foreignKey: "id", targetKey: 'id__status'});
+      Orders.hasMany(models.OrdersStatusUpdates, { foreignKey: 'id_order' });
     }
   }
   Orders.init({
@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Orders',
+    timestamps: false
   });
   return Orders;
 };

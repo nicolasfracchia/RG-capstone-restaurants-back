@@ -4,9 +4,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
-      Users.belongsToMany(Stores, { through: UsersStores });
-      Users.belongsToMany(InformationType, { through: UsersInformation });
-      Users.balongsTo(Orders, {foreignKey: 'id_user'});
+      Users.belongsToMany(models.Stores, { through: models.UsersStores });
+      Users.belongsToMany(models.InformationType, { through: models.UsersInformation });
+      Users.belongsTo(models.Orders, {foreignKey: 'id', targetKey: 'id_user'});
     }
   }
   Users.init({
@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Users',
+    timestamps: false
   });
   return Users;
 };

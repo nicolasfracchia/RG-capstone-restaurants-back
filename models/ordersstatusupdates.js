@@ -4,9 +4,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class OrdersStatusUpdates extends Model {
     static associate(models) {
-      OrdersStatusUpdates.belongsTo(Orders, { foreignKey: 'id_order' });
-      OrdersStatusUpdates.belongsTo(OrdersStatus, { foreignKey: 'id_status_prev' });
-      OrdersStatusUpdates.belongsTo(OrdersStatus, { foreignKey: 'id_status_new' });
+      OrdersStatusUpdates.belongsTo(models.Orders, { foreignKey: 'id_order' });
+      OrdersStatusUpdates.belongsTo(models.OrdersStatus, { foreignKey: 'id_status_prev' });
+      OrdersStatusUpdates.belongsTo(models.OrdersStatus, { foreignKey: 'id_status_new' });
     }
   }
   OrdersStatusUpdates.init({
@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'OrdersStatusUpdates',
+    timestamps: false
   });
   return OrdersStatusUpdates;
 };
