@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const {
     Users,
     UsersInformation,
@@ -7,8 +8,6 @@ const {
     Orders,
     OrdersStatus
 } = require('../models');
-const ordersstatus = require('../models/ordersstatus');
-
 
 const UserController = {
     // GET
@@ -46,6 +45,10 @@ const UserController = {
 
                 const parsedUrl = req.url.split('/');
                 const requestedData = parsedUrl[0] || parsedUrl[1];
+                const historyDates = {
+                    'from': req.query.from || null,
+                    'to': req.query.to || null
+                }
 
                 switch (requestedData) {
                     case 'info':
@@ -55,12 +58,12 @@ const UserController = {
                         user.stores = await UserController.getUserStores(userId);
                         break;
                     case 'history':
-                        user.history = await UserController.getUserHistory(userId);
+                        user.history = await UserController.getUserHistory(userId, historyDates);
                         break;
                     default:
                         user.information = await UserController.getUserInfo(userId);
                         user.stores = await UserController.getUserStores(userId);
-                        user.history = await UserController.getUserHistory(userId);
+                        user.history = await UserController.getUserHistory(userId, historyDates);
                 }
 
                 res.status(200).send(user);
@@ -94,9 +97,17 @@ const UserController = {
             throw error; 
         }
     },
-    getUserHistory: async (userId) => {
+    getUserHistory: async (userId, historyDates) => {
+        let where = { id_user: userId }; 
+        if(historyDates.from){
+            where.datetime = {...where.datetime, [Op.gte]: historyDates.from};
+        }
+        if(historyDates.to){
+            where.datetime = {...where.datetime, [Op.lte]: historyDates.to};
+        }
+
         const ordersData = {
-            where: { id_user: userId },
+            where: where,
             raw: true,
             attributes: ['id','discount','datetime'],
             include: [
