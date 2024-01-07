@@ -3,8 +3,11 @@ const {
     UsersInformation,
     UsersStores,
     InformationType,
-    Stores
+    Stores,
+    Orders,
+    OrdersStatus
 } = require('../models');
+const ordersstatus = require('../models/ordersstatus');
 
 
 const UserController = {
@@ -51,9 +54,13 @@ const UserController = {
                     case 'stores':
                         user.stores = await UserController.getUserStores(userId);
                         break;
+                    case 'history':
+                        user.history = await UserController.getUserHistory(userId);
+                        break;
                     default:
                         user.information = await UserController.getUserInfo(userId);
                         user.stores = await UserController.getUserStores(userId);
+                        user.history = await UserController.getUserHistory(userId);
                 }
 
                 res.status(200).send(user);
@@ -87,8 +94,38 @@ const UserController = {
             throw error; 
         }
     },
-    getUserHistory: (req, res) => {
-        console.log('ENTRA HISTORY');
+    getUserHistory: async (userId) => {
+        const ordersData = {
+            where: { id_user: userId },
+            raw: true,
+            attributes: ['id','discount','datetime'],
+            include: [
+                {
+                    model: Stores,
+                    as: 'store',
+                    attributes: ['name']
+                },
+                {
+                    model: OrdersStatus,
+                    as: 'status',
+                    attributes: ['name']
+                }
+            ]
+        };
+
+        try {
+            const results = await Orders.findAll(ordersData);
+            let orders = results.map(o => ({
+                'order_id': o.id,
+                'order_discount': o.discount,
+                'order_date': o.datetime,
+                'order_store': o['store.name'],
+                'order_status': o['status.name']
+            }));
+            return orders;
+        } catch (error) {
+            throw error; 
+        }
     },
     getUserStores: async (userId) => {
         const storesData = {

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Stores.belongsToMany(models.InformationType, { through: models.StoresInformation });
       Stores.belongsTo(models.Orders, {foreignKey: 'id_store'});
       */
-      Stores.hasMany(models.UsersStores, { foreignKey: 'id_store', as: 'userStores' });
+      Stores.hasMany(models.Orders, { foreignKey: 'id_store', as: 'store' });
     }
   }
   Stores.init({
