@@ -7,10 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       Users.belongsToMany(models.Stores, { through: models.UsersStores });
       Users.belongsTo(models.Orders, { foreignKey: 'id', targetKey: 'id_user' });
       Users.hasMany(models.UsersInformation, { foreignKey: 'id_user', as: 'userInformation' });
-
     }
-
-
   }
   Users.init({
     name: {

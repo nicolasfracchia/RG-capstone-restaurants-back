@@ -2,7 +2,8 @@ const {
     Users,
     UsersInformation,
     UsersStores,
-    InformationType
+    InformationType,
+    Stores
 } = require('../models');
 
 
@@ -19,6 +20,13 @@ const UserController = {
     },
     getUserById: async (req, res) => {
         const userId = parseInt(req.params.id);
+        
+        if (isNaN(userId)){
+            res.status(500).send('The user ID must be a number');
+            return false;
+        }
+        
+        
         const userData = { attributes: ['id', 'name', 'email'] };
 
         try {
@@ -40,6 +48,12 @@ const UserController = {
                     case 'info':
                         user.information = await UserController.getUserInfo(userId);
                         break;
+                    case 'stores':
+                        user.stores = await UserController.getUserStores(userId);
+                        break;
+                    default:
+                        user.information = await UserController.getUserInfo(userId);
+                        user.stores = await UserController.getUserStores(userId);
                 }
 
                 res.status(200).send(user);
@@ -57,13 +71,14 @@ const UserController = {
             include: [{
                 model: InformationType,
                 as: 'infoType',
-                attributes: ['name']
+                attributes: ['id', 'name']
             }]
         };
 
         try {
             const results = await UsersInformation.findAll(infoData);
             let information = results.map(i => ({
+                'info_id': i['infoType.id'],
                 'info_type': i.information,
                 'info_value': i['infoType.name']
             }));
@@ -75,8 +90,28 @@ const UserController = {
     getUserHistory: (req, res) => {
         console.log('ENTRA HISTORY');
     },
-    getUserStores: (req, res) => {
-        console.log('ENTRA STORES');
+    getUserStores: async (userId) => {
+        const storesData = {
+            where: { id_user: userId },
+            raw: true,
+            attributes: [],
+            include: [{
+                model: Stores,
+                as: 'store',
+                attributes: ['id', 'name']
+            }]
+        };
+
+        try {
+            const results = await UsersStores.findAll(storesData);
+            let stores = results.map(s => ({
+                'store_id': s['store.id'],
+                'store_name': s['store.name']
+            }));
+            return stores;
+        } catch (error) {
+            throw error; 
+        }
     },
 
     // POST
