@@ -5,7 +5,7 @@ const database = require('./config/database');
 const express = require('express');
 const app = express();
 const port = 3000;
-const routes = require('./routes/routes');
+const routes = require('./routes');
 
 database.authenticate()
 .then(function(){

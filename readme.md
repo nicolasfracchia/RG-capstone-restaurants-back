@@ -428,3 +428,7 @@ module.exports = {
 };
 ```
 3. Run all seeders: ``` sequelize db:seed:all ```
+
+# ROUTES
+Routes are generated in the "./routes" folder and are separated by module (not by model).
+Each Route points to a controller, for ease of maintenance and consistency.
