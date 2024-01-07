@@ -5,11 +5,8 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class UsersInformation extends Model {
     static associate(models) {
-      models.Users.belongsToMany(models.InformationType, {
-        through: UsersInformation,
-        foreignKey: 'id_user',
-        otherKey: 'id_type'
-      });
+      UsersInformation.belongsTo(models.Users, { foreignKey: 'id_user', targetKey: 'id', as: 'userInfo' });
+      UsersInformation.belongsTo(models.InformationType, { foreignKey: 'id_type', as: 'infoType', targetKey: 'id' });
     }
   }
   UsersInformation.init({

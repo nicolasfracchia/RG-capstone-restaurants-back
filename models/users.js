@@ -5,9 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
       Users.belongsToMany(models.Stores, { through: models.UsersStores });
-      Users.belongsToMany(models.InformationType, { through: models.UsersInformation });
-      Users.belongsTo(models.Orders, {foreignKey: 'id', targetKey: 'id_user'});
+      Users.belongsTo(models.Orders, { foreignKey: 'id', targetKey: 'id_user' });
+      Users.hasMany(models.UsersInformation, { foreignKey: 'id_user', as: 'userInformation' });
+
     }
+
+
   }
   Users.init({
     name: {
