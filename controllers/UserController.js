@@ -184,7 +184,21 @@ const UserController = {
 
     // POST
     newUser: (req, res) => {
-        return true;
+        const name = req.body.name;
+        const email = req.body.email;
+        
+        if(!name || !email){
+            res.status(500).send('Wrong body params');
+            return false;
+        }
+
+        Users.create({'name':name,'email':email})
+        .then(function(results){
+            res.status(200).send(results);
+        })
+        .catch(function(error){
+            res.status(500).send(error);
+        })
     },
     newUserStore: (req, res) => {
         return true;
