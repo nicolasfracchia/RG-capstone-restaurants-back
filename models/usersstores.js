@@ -4,19 +4,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class UsersStores extends Model {
     static associate(models) {
-      UsersStores.belongsTo(models.Stores, { foreignKey: 'id_store', as: 'store', targetKey: 'id' });
+      UsersStores.belongsTo(models.Users, { foreignKey: 'id_user' });
+      UsersStores.belongsTo(models.Stores, { foreignKey: 'id_store' });
     }
   }
-  UsersStores.init({
-    id_user: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    id_store: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }
-  }, {
+  UsersStores.init({}, {
     sequelize,
     modelName: 'UsersStores',
     timestamps: false

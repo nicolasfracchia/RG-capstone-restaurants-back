@@ -165,7 +165,6 @@ const UserController = {
             attributes: [],
             include: [{
                 model: Stores,
-                as: 'store',
                 attributes: ['id', 'name']
             }]
         };
@@ -173,8 +172,8 @@ const UserController = {
         try {
             const results = await UsersStores.findAll(storesData);
             let stores = results.map(s => ({
-                'store_id': s['store.id'],
-                'store_name': s['store.name']
+                'store_id': s['Store.id'],
+                'store_name': s['Store.name']
             }));
             return stores;
         } catch (error) {
@@ -200,9 +199,28 @@ const UserController = {
             res.status(500).send(error);
         })
     },
-    newUserStore: (req, res) => {
-        return true;
+    newUserStore: async (req, res) => {
+        const user = await UserController.getUserById(req.body.user);
+        const store = req.body.store;
+    
+        if (!user || !store) {
+            res.status(500).send('Wrong body params');
+            return false;
+        }
+    
+        try {
+            await UsersStores.create({
+                id_user: user.id,
+                id_store: store,
+            });
+            res.status(200).send('User added to store successfully');
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).send(error);
+        }
     },
+    
+    
     newUserInfo: (req, res) => {
         return true;
     },

@@ -11,8 +11,8 @@ router.get('/:id', UserController.getUser);
 
 // POST
 router.post('/', UserController.newUser);
-router.post('/info', UserController.newUserStore);
-router.post('/store', UserController.newUserInfo);
+router.post('/store', UserController.newUserStore);
+router.post('/info', UserController.newUserInfo);
 
 // PATCH
 router.patch('/info/:id', UserController.updateUserInfo);
