@@ -4,10 +4,10 @@ const UserController = require('../controllers/UserController');
 
 // GET
 router.get('/', UserController.getAllUsers);
-router.get('/info/:id', UserController.getUserById);
-router.get('/history/:id', UserController.getUserById);
-router.get('/stores/:id', UserController.getUserById);
-router.get('/:id', UserController.getUserById);
+router.get('/info/:id', UserController.getUser);
+router.get('/history/:id', UserController.getUser);
+router.get('/stores/:id', UserController.getUser);
+router.get('/:id', UserController.getUser);
 
 // POST
 router.post('/', UserController.newUser);

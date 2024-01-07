@@ -20,7 +20,7 @@ const UserController = {
                 res.status(500).send(error);
             })
     },
-    getUserById: async (req, res) => {
+    getUser: async (req, res) => {
         const userId = parseInt(req.params.id);
         
         if (isNaN(userId)){
@@ -32,17 +32,9 @@ const UserController = {
         const userData = { attributes: ['id', 'name', 'email'] };
 
         try {
-            const results = await Users.findByPk(userId, userData);
+            let user = await UserController.getUserById(userId);
 
-            if (!results) {
-                res.status(500).send('User not found'); // Returns error 500 if the user doesn't exist
-            } else {
-                let user = {
-                    'id': results.id,
-                    'name': results.name,
-                    'mail': results.email,
-                };
-
+            if (user) {
                 const parsedUrl = req.url.split('/');
                 const requestedData = parsedUrl[0] || parsedUrl[1];
                 const historyDates = {
@@ -67,6 +59,34 @@ const UserController = {
                 }
 
                 res.status(200).send(user);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).send(error);
+        }
+    },
+    getUserById: async (ID) => {
+        const userId = parseInt(ID);
+        
+        if (isNaN(userId)){
+            res.status(500).send('The user ID must be a number');
+            return false;
+        }
+        
+        const userData = { attributes: ['id', 'name', 'email'] };
+
+        try {
+            const results = await Users.findByPk(userId, userData);
+            if (!results) {
+                res.status(500).send('User not found'); // Returns error 500 if the user doesn't exist
+                return false;
+            } else {
+                let user = {
+                    'id': results.id,
+                    'name': results.name,
+                    'mail': results.email,
+                };
+                return user;
             }
         } catch (error) {
             console.error('Error:', error);
