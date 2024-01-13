@@ -243,6 +243,27 @@ const UserController = {
 
     // PATCH
     updateUserInfo: (req, res) => {
+        const infoId = req.params.infoId;
+        UsersInformation.findByPk(infoId)
+        .then(function(results){
+            if(results == undefined){
+                res.status(404).send("The required information record does not exist");
+            }else{
+                results.id_type = parseInt(req.body.type) || results.id_type;
+                results.information = req.body.information || results.information;
+
+                results.save()
+                .then(function(result){
+                    res.status(200).send(result);
+                })
+                .catch(function(error){
+                    res.status(500).send(error);
+                })
+            }
+        })
+        .catch(function(error){
+            res.status(500).send(error);
+        })
         return true;
     },
     updateUser: (req, res) => {

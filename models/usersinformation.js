@@ -12,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   UsersInformation.init({
+    id:{
+      type:DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true
+    },
     information: {
       type: DataTypes.STRING,
       allowNull: false

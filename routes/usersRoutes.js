@@ -15,7 +15,7 @@ router.post('/store', UserController.newUserStore);
 router.post('/info', UserController.newUserInfo);
 
 // PATCH
-router.patch('/info/:id', UserController.updateUserInfo);
+router.patch('/info/:infoId', UserController.updateUserInfo);
 router.patch('/:id', UserController.updateUser);
 
 // DELETE
