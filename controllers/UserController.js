@@ -264,10 +264,28 @@ const UserController = {
         .catch(function(error){
             res.status(500).send(error);
         })
-        return true;
     },
-    updateUser: (req, res) => {
-        return true;
+    updateUser: async (req, res) => {
+        Users.findByPk(req.params.id)
+        .then(function(user){
+            if(!user){
+                res.status(404).send("The requested user does not exist");
+                return false;
+            }else{
+                user.name = req.body.name || user.name,
+                user.email = req.body.email || user.email
+                user.save()
+                .then(function(result){
+                    res.status(200).send(result);
+                })
+                .catch(function(error){
+                    res.status(500).send(error);
+                })
+            }
+        })
+        .catch(function(error){
+            res.status(500).send(error);
+        })
     },
 
     // DELETE
