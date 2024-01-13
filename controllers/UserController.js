@@ -69,7 +69,7 @@ const UserController = {
         const userId = parseInt(ID);
         
         if (isNaN(userId)){
-            res.status(500).send('The user ID must be a number');
+            //res.status(500).send('The user ID must be a number');
             return false;
         }
         
@@ -100,7 +100,6 @@ const UserController = {
             attributes: ['information'],
             include: [{
                 model: InformationType,
-                as: 'infoType',
                 attributes: ['id', 'name']
             }]
         };
@@ -108,9 +107,9 @@ const UserController = {
         try {
             const results = await UsersInformation.findAll(infoData);
             let information = results.map(i => ({
-                'info_id': i['infoType.id'],
+                'info_id': i['InformationType.id'],
                 'info_type': i.information,
-                'info_value': i['infoType.name']
+                'info_value': i['InformationType.name']
             }));
             return information;
         } catch (error) {
@@ -219,10 +218,27 @@ const UserController = {
             res.status(500).send(error);
         }
     },
+    newUserInfo: async (req, res) => {
+        const user = await UserController.getUserById(req.body.user);
+        const info_type = req.body.type;
+        const info = req.body.info;
     
+        if (!user || !info_type || !info) {
+            res.status(500).send('Wrong body params');
+            return false;
+        }
     
-    newUserInfo: (req, res) => {
-        return true;
+        try {
+            await UsersInformation.create({
+                id_user: user.id,
+                id_type: info_type,
+                information: info
+            });
+            res.status(200).send('User information added successfully');
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).send(error);
+        }
     },
 
     // PATCH

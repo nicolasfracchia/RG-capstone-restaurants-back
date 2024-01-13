@@ -5,8 +5,9 @@ module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
       Users.belongsToMany(models.Stores, { foreignKey: 'id_user', through: 'UsersStores', as: 'stores' });
+      Users.belongsToMany(models.InformationType, { foreignKey: 'id_user', through: 'UsersInformation', as: 'info' });
       Users.hasMany(models.Orders, { foreignKey: 'id_user', as: 'orders' });
-      Users.hasMany(models.UsersInformation, { foreignKey: 'id_user', as: 'userInformation' });
+      //Users.hasMany(models.UsersInformation, { foreignKey: 'id_user', as: 'userInformation' });
     }
   }
   Users.init({
