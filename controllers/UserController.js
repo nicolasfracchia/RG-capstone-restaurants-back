@@ -28,7 +28,6 @@ const UserController = {
             return false;
         }
         
-        
         const userData = { attributes: ['id', 'name', 'email'] };
 
         try {
@@ -289,11 +288,67 @@ const UserController = {
     },
 
     // DELETE
-    deleteUserInfoAll: (req, res) => {
-        return true;
-    },
     deleteUserInfo: (req, res) => {
-        return true;
+        const infoId = parseInt(req.params.infoId);
+        
+        if(!infoId || isNaN(infoId)){
+            res.status(500).send('Missing information ID param');
+            return false;
+        }
+
+        UsersInformation.findByPk(infoId)
+        .then(function(userInfo){
+            if(userInfo == undefined){
+                res.status(500).send("The requested information record does not exist");
+            }else{
+                userInfo.destroy()
+                .then(function(result){
+                    res.status(200).send(result);
+                })
+                .catch(function(error){
+                    res.status(500).send(error);
+                })
+            }
+        })
+        .catch(function(error){
+            res.status(500).send(error);
+        })
+    },
+    deleteUserInfoAll: async (req, res) => {
+        const user = await UserController.getUserById(req.params.userId);
+        
+        if(!user){
+            res.status(500).send("The user does not exist");
+            return false;
+        }
+
+        let deletedinformation = [];
+
+        UsersInformation.findAll({where: {id_user: user.id} })
+        .then(function(infoRecords){
+            const deleteRecords = infoRecords.map(function(infoRecord){
+                return infoRecord.destroy()
+                .then(function(result){
+                    deletedinformation.push(result.dataValues);
+                    return result;
+                })
+                .catch(function(error){
+                    deletedinformation.push(error);
+                    res.status(500).send(deletedinformation)
+                })
+            })
+
+            Promise.all(deleteRecords)
+            .then(function (deletedInformation) {
+                res.status(200).send(deletedInformation);
+            })
+            .catch(function (error) {
+                res.status(500).send(error);
+            });
+        })
+        .catch(function(error){
+            res.status(500).send(error);
+        })
     },
     deleteUserStore: (req, res) => {
         return true;

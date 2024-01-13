@@ -19,9 +19,12 @@ router.patch('/info/:infoId', UserController.updateUserInfo);
 router.patch('/:id', UserController.updateUser);
 
 // DELETE
-router.delete('/info/all/:id', UserController.deleteUserInfoAll);
-router.delete('/info/:id', UserController.deleteUserInfo);
-router.delete('/store/:id', UserController.deleteUserStore);
+router.delete('/info/all/:userId', UserController.deleteUserInfoAll);
+router.delete('/info/:infoId', UserController.deleteUserInfo);
+router.delete('/history', UserController.deleteUserInfoAll);
+router.delete('/history/:historyId', UserController.deleteUserInfo);
+router.delete('/store/', UserController.deleteUserStore);
+router.delete('/store/:storeId', UserController.deleteUserStore);
 router.delete('/:id', UserController.deleteUser);
 
 module.exports = router;
