@@ -68,7 +68,6 @@ const UserController = {
         const userId = parseInt(ID);
         
         if (isNaN(userId)){
-            //res.status(500).send('The user ID must be a number');
             return false;
         }
         
@@ -77,7 +76,6 @@ const UserController = {
         try {
             const results = await Users.findByPk(userId, userData);
             if (!results) {
-                res.status(500).send('User not found'); // Returns error 500 if the user doesn't exist
                 return false;
             } else {
                 let user = {
@@ -367,8 +365,59 @@ const UserController = {
             res.status(500).send(error);
         })
     },
-    deleteUser: (req, res) => {
-        return true;
+    deleteUserHistory: async (req, res) => {
+        const user = await UserController.getUserById(req.params.userId);
+        
+        if(!user){
+            res.status(500).send("The user does not exist");
+            return false;
+        }
+
+        Orders.destroy({where: {id_user: user.id}})
+        .then(function(rows){
+            res.status(200).send({rows});
+        })
+        .catch(function(error){
+            res.status(500).send(error);
+        })
+    },
+    deleteUser: async (req, res) => {
+        const user = await UserController.getUserById(req.params.userId);
+        
+        if(!user){
+            res.status(500).send("The user does not exist");
+            return false;
+        }
+
+        let destroyedData = [];
+
+        // DELETE USER INFO
+        const infoDelete = UsersInformation.destroy({where: {id_user: user.id}})
+        .then(function(rows){destroyedData.push(`User information rows: ${rows}`);})
+        .catch(function(error){destroyedData.push(error);res.status(500).send(deletedinformation)});
+
+        // DELETE USER STORES
+        const storesDelete = UsersStores.destroy({where: {id_user: user.id}})
+        .then(function(rows){destroyedData.push(`User stores rows: ${rows}`);})
+        .catch(function(error){destroyedData.push(error);res.status(500).send(deletedinformation)});
+
+        // DELETE USER ORDERS
+        const ordersDelete = Orders.destroy({where: {id_user: user.id}})
+        .then(function(rows){destroyedData.push(`User history rows: ${rows}`);})
+        .catch(function(error){destroyedData.push(error);res.status(500).send(deletedinformation)});
+
+        // DELETE USER
+        const userDelete = Users.destroy({where: {id: user.id}})
+        .then(function(rows){destroyedData.push(`USER DELETED SUCCESSFULLY`);})
+        .catch(function(error){destroyedData.push(error);res.status(500).send(deletedinformation)});
+
+        Promise.all([infoDelete, storesDelete, ordersDelete, userDelete])
+        .then(function () {
+            res.status(200).send(destroyedData);
+        })
+        .catch(function (error) {
+            res.status(500).send(error);
+        });
     }
 };
 

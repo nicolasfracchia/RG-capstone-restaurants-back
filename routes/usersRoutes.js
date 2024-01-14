@@ -21,9 +21,8 @@ router.patch('/:id', UserController.updateUser);
 // DELETE
 router.delete('/info/all/:userId', UserController.deleteUserInfoAll);
 router.delete('/info/:infoId', UserController.deleteUserInfo);
-router.delete('/history', UserController.deleteUserInfoAll);
-router.delete('/history/:historyId', UserController.deleteUserInfo);
+router.delete('/history/:userId', UserController.deleteUserHistory);
 router.delete('/store/:storeId', UserController.deleteUserStore);
-router.delete('/:id', UserController.deleteUser);
+router.delete('/:userId', UserController.deleteUser);
 
 module.exports = router;
