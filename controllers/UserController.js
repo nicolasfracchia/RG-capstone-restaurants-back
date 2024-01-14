@@ -350,8 +350,42 @@ const UserController = {
             res.status(500).send(error);
         })
     },
-    deleteUserStore: (req, res) => {
-        return true;
+    deleteUserStore: async (req, res) => {
+        const user = await UserController.getUserById(req.body.user);
+        const storeId = parseInt(req.params.storeId);
+        
+        if(!user){
+            res.status(500).send("The user does not exist");
+            return false;
+        }
+
+        let deletedStores = [];
+
+        UsersStores.findAll({where: {id_user: user.id, id_store: storeId}})
+        .then(function(results){
+            const deletedStore = results.map(function(infoRecord){
+                return infoRecord.destroy()
+                .then(function(result){
+                    deletedStores.push(result.dataValues);
+                    return result;
+                })
+                .catch(function(error){
+                    deletedStores.push(error);
+                    res.status(500).send(deletedStores)
+                })
+            });
+
+            Promise.all(deletedStore)
+            .then(function (deletedStores) {
+                res.status(200).send(deletedStores);
+            })
+            .catch(function (error) {
+                res.status(500).send(error);
+            });
+        })
+        .catch(function(error){
+            res.status(500).send(error);
+        })
     },
     deleteUser: (req, res) => {
         return true;

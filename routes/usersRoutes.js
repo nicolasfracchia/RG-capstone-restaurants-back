@@ -23,7 +23,6 @@ router.delete('/info/all/:userId', UserController.deleteUserInfoAll);
 router.delete('/info/:infoId', UserController.deleteUserInfo);
 router.delete('/history', UserController.deleteUserInfoAll);
 router.delete('/history/:historyId', UserController.deleteUserInfo);
-router.delete('/store/', UserController.deleteUserStore);
 router.delete('/store/:storeId', UserController.deleteUserStore);
 router.delete('/:id', UserController.deleteUser);
 
