@@ -359,29 +359,9 @@ const UserController = {
             return false;
         }
 
-        let deletedStores = [];
-
-        UsersStores.findAll({where: {id_user: user.id, id_store: storeId}})
-        .then(function(results){
-            const deletedStore = results.map(function(infoRecord){
-                return infoRecord.destroy()
-                .then(function(result){
-                    deletedStores.push(result.dataValues);
-                    return result;
-                })
-                .catch(function(error){
-                    deletedStores.push(error);
-                    res.status(500).send(deletedStores)
-                })
-            });
-
-            Promise.all(deletedStore)
-            .then(function (deletedStores) {
-                res.status(200).send(deletedStores);
-            })
-            .catch(function (error) {
-                res.status(500).send(error);
-            });
+        UsersStores.destroy({where: {id_user: user.id, id_store: storeId}})
+        .then(function(rows){
+            res.status(200).send({rows});
         })
         .catch(function(error){
             res.status(500).send(error);
